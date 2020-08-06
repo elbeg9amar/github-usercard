@@ -3,7 +3,14 @@
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
-
+axios.get('https://api.github.com/users/amar')
+.then(response => {
+cardMaker.appendChild(makeCard(response.data))
+})
+.catch(err => {
+  console.log('This is error')
+  debugger
+})
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
     github info! You will need to understand the structure of this
@@ -11,6 +18,8 @@
 
     Skip to STEP 3.
 */
+const cardMaker = document.querySelector('.cards')
+
 
 /*
   STEP 4: Pass the data received from Github into your function,
@@ -58,3 +67,45 @@ const followersArray = [];
     luishrd
     bigknell
 */
+function makeCard (obj) {
+  const imgCard = document.createElement('img')
+    imgCard.src = obj['avatar_url']
+
+  const infoCard = document.createElement('div')
+    infoCard.classList.add('card')
+
+    const title = document.createElement('h3')
+    title.textContent = obj.login
+    title.classList.add('name')
+    infoCard.appendChild(title)
+
+    const userName = document.createElement('p')
+    userName.textContent = obj.name
+    userName.classList.add('username')
+    infoCard.appendChild(userName)
+
+    const userLocation = document.createElement('p')
+    userLocation.textContent = `Location: ${obj['location']}`
+    infoCard.appendChild(userLocation)
+
+    const userProfile = document.createElement('p')
+      const address = document.createElement('a')
+      address.href = obj['url']
+      address.textContent = obj['url']
+      userProfile.appendChild(address)
+    infoCard.appendChild(userProfile)
+
+    const followers = document.createElement('p')
+    followers.textContent = `Followers: ${obj['followers']}`
+    infoCard.appendChild(followers)
+
+    const following = document.createElement('p')
+    following.textContent = `Following: ${obj['following']}`
+    infoCard.appendChild(following)
+
+    const bio = document.createElement('p')
+    bio.textContent = `Bio: ${obj.bio}`
+    infoCard.appendChild(bio)
+
+    return imgCard, infoCard
+}
